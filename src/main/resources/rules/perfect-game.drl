@@ -1,5 +1,17 @@
 package com.si.perfectgame
 
+
+declare Question
+    question : String
+    answer : Boolean
+    end
+
+declare Game
+    name : String
+
+
+
+
 rule "init"
 then
     System.out.println("lama");
