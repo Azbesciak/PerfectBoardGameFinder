@@ -1,38 +1,71 @@
 package com.si.perfectgame
+import javax.swing.*;
+import org.kie.api.runtime.*;
 
+
+global JFrame frame
+global javax.swing.JTextArea textArea
+
+declare enum QuestionText
+    WITH_CHILD("Are you playing with children?"),
+    YOUNGER_7("Younger than 7?"),
+    GIRLS("Girls only?");
+
+    text: String
+end
 
 declare Question
-    text : String
-    answers : String[]
-    end
+    text: QuestionText @key
+    answers: String[] @key
+    choise: Integer
+end
 
-declare Game
-    name : String
-    end
+function void askAQuestion(JFrame frame, KieRuntime krt, Question question) {
+    question.setChoise(JOptionPane
+        .showOptionDialog(
+            frame,
+            question.getText().getText(), "",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            question.getAnswers(),
+            question.getAnswers()[0])
+    );
+    krt.insert(question);
+}
 
-rule "children"
-    when
-    then
-    Question q = new Question();
-    q.text("Are you playing with children?");
-    insert(q);
-    end
-
-rule "younger 7"
-    when qus : Question(question=="Are you playing with children?",answer==True)
-    then
-    Question q = new Question();
-    q.text("Younger than 7?")
-    //jakas odp
-    insert(q)
-    end
-
-
-
-
+function void showResult(JFrame frame, String gameName) {
+    JOptionPane.showMessageDialog(frame, gameName);
+}
 
 
 rule "init"
 then
-    System.out.println("lama");
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionText.WITH_CHILD, new String[]{"No", "Yes"}));
+end
+
+
+rule "playing with children - yes"
+when
+    q: Question(text == QuestionText.WITH_CHILD, choise == 1)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionText.YOUNGER_7, new String[]{"No", "Yes"}));
+end
+
+rule "Younger than 7? - yes"
+when
+    q: Question(text == QuestionText.YOUNGER_7, choise == 1)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionText.GIRLS, new String[]{"No", "Yes"}));
+end
+
+
+rule "Girls only? - yes"
+when
+    q: Question(text == QuestionText.GIRLS, choise == 1)
+then
+    showResult(frame, "Candy Land");
 end
