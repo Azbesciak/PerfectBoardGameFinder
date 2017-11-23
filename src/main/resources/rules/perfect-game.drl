@@ -2,12 +2,32 @@ package com.si.perfectgame
 
 
 declare Question
-    question : String
-    answer : Boolean
+    text : String
+    answers : String[]
     end
 
 declare Game
     name : String
+    end
+
+rule "children"
+    when
+    then
+    Question q = new Question();
+    q.text("Are you playing with children?");
+    insert(q);
+    end
+
+rule "younger 7"
+    when qus : Question(question=="Are you playing with children?",answer==True)
+    then
+    Question q = new Question();
+    q.text("Younger than 7?")
+    //jakas odp
+    insert(q)
+    end
+
+
 
 
 
