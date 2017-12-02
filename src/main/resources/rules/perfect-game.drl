@@ -1,71 +1,304 @@
 package com.si.perfectgame
-import javax.swing.*;
-import org.kie.api.runtime.*;
+//import javax.swing.*;
+//import org.kie.api.runtime.*
+//import com.si.perfectgame.QuestionVal;
 
 
-global JFrame frame
-global javax.swing.JTextArea textArea
+//global JFrame frame
+//global javax.swing.JTextArea textArea
 
-declare enum QuestionText
-    WITH_CHILD("Are you playing with children?"),
-    YOUNGER_7("Younger than 7?"),
-    GIRLS("Girls only?");
+//declare Question
+//    val: QuestionVal @key
+//    choice: Integer
+//end
 
-    text: String
-end
-
-declare Question
-    text: QuestionText @key
-    answers: String[] @key
-    choise: Integer
-end
-
-function void askAQuestion(JFrame frame, KieRuntime krt, Question question) {
-    question.setChoise(JOptionPane
-        .showOptionDialog(
-            frame,
-            question.getText().getText(), "",
-            JOptionPane.YES_NO_CANCEL_OPTION,
-            JOptionPane.QUESTION_MESSAGE,
-            null,
-            question.getAnswers(),
-            question.getAnswers()[0])
-    );
-    krt.insert(question);
-}
-
-function void showResult(JFrame frame, String gameName) {
-    JOptionPane.showMessageDialog(frame, gameName);
-}
-
+//function void askAQuestion(JFrame frame, KieRuntime krt, Question question) {
+//    question.setChoice(JOptionPane
+//        .showOptionDialog(
+//            frame,
+//            question.getVal().getText(), "",
+//            JOptionPane.YES_NO_CANCEL_OPTION,
+//            JOptionPane.QUESTION_MESSAGE,
+//            null,
+//            question.getVal().getAns(),
+//            question.getVal().getLeft())
+//    );
+//    krt.insert(question);
+//}
+//
+//function void showResult(JFrame frame, String gameName) {
+//    JOptionPane.showMessageDialog(frame, gameName);
+//}
+// FIXME zakomentowane żeby intellij nie zjadał całego ramu na kompie,
+// FIXME podobnie z klasami i enum w javie zamiast tutaj
 
 rule "init"
 then
     askAQuestion(frame, kcontext.getKieRuntime(),
-     new Question(QuestionText.WITH_CHILD, new String[]{"No", "Yes"}));
+     new Question(QuestionVal.WITH_CHILD));
 end
 
 
 rule "playing with children - yes"
 when
-    q: Question(text == QuestionText.WITH_CHILD, choise == 1)
+    q: Question(val == QuestionVal.WITH_CHILD, choice == 1)
 then
     askAQuestion(frame, kcontext.getKieRuntime(),
-     new Question(QuestionText.YOUNGER_7, new String[]{"No", "Yes"}));
+     new Question(QuestionVal.YOUNGER_7));
 end
 
 rule "Younger than 7? - yes"
 when
-    q: Question(text == QuestionText.YOUNGER_7, choise == 1)
+    q: Question(val == QuestionVal.YOUNGER_7, choice == 1)
 then
     askAQuestion(frame, kcontext.getKieRuntime(),
-     new Question(QuestionText.GIRLS, new String[]{"No", "Yes"}));
+     new Question(QuestionVal.GIRLS));
 end
 
 
 rule "Girls only? - yes"
 when
-    q: Question(text == QuestionText.GIRLS, choise == 1)
+    q: Question(val == QuestionVal.GIRLS, choice == 1)
 then
     showResult(frame, "Candy Land");
 end
+
+rule "Girls only? - no"
+when
+    q: Question(val == QuestionVal.GIRLS, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+         new Question(QuestionVal.REAL_RULES));
+end
+
+rule "Real rules? - rules"
+when
+    q: Question(val == QuestionVal.REAL_RULES, choice == 1)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+         new Question(QuestionVal.FUN_ADULTS));
+end
+
+rule "Fun for adult - yes"
+when
+    q: Question(val == QuestionVal.FUN_ADULTS, choice == 1)
+then
+     showResult(frame, "Sorry!");
+end
+
+rule "Fun for adult - no"
+when
+    q: Question(val == QuestionVal.FUN_ADULTS, choice == 0)
+then
+     showResult(frame, "Life");
+end
+
+rule "Real rules? - fun"
+when
+    q: Question(val == QuestionVal.REAL_RULES, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+         new Question(QuestionVal.RUBE));
+end
+
+rule "Rube gold - yes"
+when
+    q: Question(val == QuestionVal.RUBE, choice == 1)
+then
+    showResult(frame, "Mouse Trap");
+end
+
+rule "Rube gold - no"
+when
+    q: Question(val == QuestionVal.RUBE, choice == 0)
+then
+    showResult(frame, "Operation");
+end
+
+rule "Younger than 7? - no"
+when
+    q: Question(val == QuestionVal.YOUNGER_7, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.CRUSH_DEF));
+end
+
+rule "Crushing defeat? - yes"
+when
+    q: Question(val == QuestionVal.CRUSH_DEF, choice == 1)
+then
+    showResult(frame, "Monopoly");
+end
+
+rule "Crushing defeat? - no"
+when
+    q: Question(val == QuestionVal.CRUSH_DEF, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.PORT));
+end
+
+rule "Portable? - yes"
+when
+    q: Question(val == QuestionVal.PORT, choice == 1)
+then
+    showResult(frame, "Yahtzee!");
+end
+
+rule "Portable? - no"
+when
+    q: Question(val == QuestionVal.PORT, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.ONE_TEAM));
+end
+
+rule "One or team eff? - team"
+when
+    q: Question(val == QuestionVal.ONE_TEAM, choice == 1)
+then
+    showResult(frame, "Forbidden Island");
+end
+
+rule "One or team eff? - one"
+when
+    q: Question(val == QuestionVal.ONE_TEAM, choice == 0)
+then
+    showResult(frame, "Small World");
+end
+
+
+
+
+rule "playing with children - no"
+when
+    q: Question(val == QuestionVal.WITH_CHILD, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.MORE_2_HOURS));
+end
+
+rule "More than 2 h - yes"
+when
+    q: Question(val == QuestionVal.MORE_2_HOURS, choice == 1)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.HARD_RULE));
+end
+
+rule "Hardest rule - yes"
+when
+    q: Question(val == QuestionVal.HARD_RULE, choice == 1)
+then
+    showResult(frame, "Axis and Allies");
+end
+
+rule "Hardest rule - no"
+when
+    q: Question(val == QuestionVal.HARD_RULE, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.ALL_TILL_END));
+end
+
+rule "all till end - yes"
+when
+    q: Question(val == QuestionVal.ALL_TILL_END, choice == 1)
+then
+    showResult(frame, "Le Havre");
+end
+
+rule "all till end - no"
+when
+    q: Question(val == QuestionVal.ALL_TILL_END, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.DICE_STRAT));
+end
+
+
+rule "dice strat - strat"
+when
+    q: Question(val == QuestionVal.DICE_STRAT, choice == 1)
+then
+   showResult(frame, "Game of Thrones");
+end
+
+rule "dice strat - dice"
+when
+    q: Question(val == QuestionVal.DICE_STRAT, choice == 0)
+then
+    showResult(frame, "Risk");
+end
+
+
+rule "More than 2 h - no"
+when
+    q: Question(val == QuestionVal.MORE_2_HOURS, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.NERD));
+end
+
+rule "nerd - yes"
+when
+    q: Question(val == QuestionVal.NERD, choice == 1)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.DOZEN_PREPA));
+end
+
+rule "dozen of hours preparing - yes"
+when
+    q: Question(val == QuestionVal.DOZEN_PREPA, choice == 1)
+then
+    showResult(frame, "Warhammer");
+end
+
+rule "dozen of hours preparing - no"
+when
+    q: Question(val == QuestionVal.DOZEN_PREPA, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+         new Question(QuestionVal.SPEND_MONEY));
+end
+
+rule "spending money - yes"
+when
+    q: Question(val == QuestionVal.SPEND_MONEY, choice == 1)
+then
+    showResult(frame, "Magic");
+end
+
+rule "spending money - no"
+when
+    q: Question(val == QuestionVal.SPEND_MONEY, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+         new Question(QuestionVal.BOOMER));
+end
+
+rule "boomer wet dreams - yes"
+when
+    q: Question(val == QuestionVal.BOOMER, choice == 1)
+then
+    showResult(frame, "Battlestar galactica");
+end
+
+rule "boomer wet dreams - no"
+when
+    q: Question(val == QuestionVal.BOOMER, choice == 0)
+then
+    showResult(frame, "Cosmic Encounter");
+end
+
+
+rule "nerd - no"
+when
+    q: Question(val == QuestionVal.NERD, choice == 0)
+then
+    askAQuestion(frame, kcontext.getKieRuntime(),
+     new Question(QuestionVal.JUST_GET_ALONG));
+end
+
+// TODO do you think everyone just get along...
