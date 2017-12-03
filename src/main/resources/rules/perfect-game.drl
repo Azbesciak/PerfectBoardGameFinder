@@ -301,4 +301,270 @@ then
      new Question(QuestionVal.JUST_GET_ALONG));
 end
 
-// TODO do you think everyone just get along...
+rule "Just Get Along - no"
+when
+    q: Question(val == QuestionVal.JUST_GET_ALONG, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.GAMBLE));
+ end
+
+rule "Just Get Along - yes"
+when
+    q: Question(val == QuestionVal.JUST_GET_ALONG, choice == 1)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.DICK));
+ end
+
+rule "Dick - no"
+when
+    q: Question(val == QuestionVal.DICK, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.MONTY_PYTH));
+ end
+
+ rule "Dick - yes"
+ when
+    q: Question(val == QuestionVal.DICK, choice == 1)
+ then
+    showResult(frame, "Arkham Horror");
+  end
+
+rule "Monthy Python - no"
+when
+    q: Question(val == QuestionVal.MONTY_PYTH, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.ZOMBIE));
+ end
+
+rule "Monthy Python - yes"
+when
+    q: Question(val == QuestionVal.MONTY_PYTH, choice == 1)
+then
+    showResult(frame, "Shadows Over Camelot");
+ end
+
+rule "Zombies - no"
+when
+    q: Question(val == QuestionVal.ZOMBIE, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.MONSTER_VIR));
+ end
+
+ rule "Zombies - yes"
+ when
+    q: Question(val == QuestionVal.ZOMBIE, choice == 1)
+ then
+    showResult(frame, "Last Night on Earth");
+   end
+
+rule "Monsters vs Viruses - Virus"
+when
+    q: Question(val == QuestionVal.MONSTER_VIR, choice == 1)
+then
+    showResult(frame, "Pandemic");
+end
+
+rule "Monsters vs Viruses - Monster"
+when
+    q: Question(val == QuestionVal.MONSTER_VIR, choice == 0)
+then
+    showResult(frame, "Dungeon Run");
+end
+
+rule "Gamble - yes"
+when
+    q: Question(val == QuestionVal.GAMBLE, choice == 1)
+then
+    showResult(frame, "Rummoli");
+ end
+
+rule "Gamble - no"
+when
+    q: Question(val == QuestionVal.GAMBLE, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+       new Question(QuestionVal.OVER_50));
+ end
+
+rule "Over 50 - yes"
+when
+    q: Question(val == QuestionVal.OVER_50, choice == 1)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.MORE_2));
+ end
+
+ rule "Over 50 - no"
+ when
+    q: Question(val == QuestionVal.OVER_50, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.PARTY));
+ end
+
+ rule "More 2 - yes"
+ when
+    q: Question(val == QuestionVal.MORE_2, choice == 1)
+then
+    showResult(frame, "Cribbage");
+ end
+
+rule "More 2 - no"
+when
+    q: Question(val == QuestionVal.MORE_2, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.MENSA));
+ end
+
+rule "Mensa - yes"
+when
+    q: Question(val == QuestionVal.MENSA, choice == 1)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.CLICHE));
+ end
+
+rule "Mensa - no"
+when
+    q: Question(val == QuestionVal.MENSA, choice == 0)
+then
+    showResult(frame, "Backgammon");
+ end
+
+rule "Cliche - yes"
+when
+    q: Question(val == QuestionVal.CLICHE, choice == 1)
+then
+    showResult(frame, "Go");
+ end
+
+rule "Cliche - no"
+when
+    q: Question(val == QuestionVal.CLICHE, choice == 0)
+then
+    showResult(frame, "Chess");
+ end
+
+rule "Party - yes"
+when
+    q: Question(val == QuestionVal.PARTY, choice == 1)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.GET_LAID));
+ end
+
+rule "Party - no"
+when
+    q: Question(val == QuestionVal.PARTY, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.KNOW_ALL));
+ end
+
+rule "Laid - yes"
+when
+    q: Question(val == QuestionVal.GET_LAID, choice == 1)
+then
+    showResult(frame, "Twister");
+ end
+
+rule "Laid - no"
+when
+    q: Question(val == QuestionVal.GET_LAID, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.EMBARRASS));
+ end
+
+rule "Embarrass - yes"
+when
+    q: Question(val == QuestionVal.EMBARRASS, choice == 1)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.THUG_ARTIST));
+ end
+
+rule "Embarrass - no"
+when
+    q: Question(val == QuestionVal.EMBARRASS, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+    new Question(QuestionVal.LAIR));
+ end
+
+rule "Thug vs Artist - Artist"
+when
+    q: Question(val == QuestionVal.THUG_ARTIST, choice ==0)
+then
+    showResult(frame, "Cranium");
+ end
+
+rule "Thug vs Artist - Thug"
+when
+    q: Question(val == QuestionVal.THUG_ARTIST, choice ==0)
+then
+    showResult(frame, "Ca$h'N'Gun$");
+ end
+
+rule "Lair - yes"
+ when
+     q: Question(val == QuestionVal.LAIR, choice == 1)
+ then
+      AskAQuestion(frame, kcontext.getKieRuntime(),
+         new Question(QuestionVal.WORDS_TRIVIA));
+  end
+
+rule "Lair - no"
+when
+    q: Question(val == QuestionVal.LAIR, choice == 0)
+then
+     AskAQuestion(frame, kcontext.getKieRuntime(),
+        new Question(QuestionVal.HANDS));
+ end
+
+rule "Words vs Trivia - Trivia"
+when
+    q: Question(val == QuestionVal.WORDS_TRIVIA, choice == 0)
+then
+    showResult(frame, "Wits and Wagers");
+ end
+
+rule "Words vs Trivia - Words"
+when
+    q: Question(val == QuestionVal.WORDS_TRIVIA, choice == 1)
+then
+    showResult(frame, "Beyond Balderdash");
+ end
+
+rule "Hands - Yes"
+when
+    q: Question(val == QuestionVal.HANDS, choice == 1)
+then
+    showResult(frame, "Jenga(DK Edition)");
+ end
+
+rule "Hands - No"
+when
+    q: Question(val == QuestionVal.HANDS, choice == 0)
+then
+    showResult(frame, "Taboo");
+ end
+
+
+
+
+
+
+
+
+
+
+
+
+// TODO Are you a know it all
