@@ -38,7 +38,6 @@ then
      new Question(QuestionVal.WITH_CHILD));
 end
 
-
 rule "playing with children - yes"
 when
     q: Question(val == QuestionVal.WITH_CHILD, choice == 1)
@@ -54,7 +53,6 @@ then
     askAQuestion(frame, kcontext.getKieRuntime(),
      new Question(QuestionVal.GIRLS));
 end
-
 
 rule "Girls only? - yes"
 when
@@ -167,9 +165,6 @@ then
     showResult(frame, "Small World");
 end
 
-
-
-
 rule "playing with children - no"
 when
     q: Question(val == QuestionVal.WITH_CHILD, choice == 0)
@@ -216,7 +211,6 @@ then
      new Question(QuestionVal.DICE_STRAT));
 end
 
-
 rule "dice strat - strat"
 when
     q: Question(val == QuestionVal.DICE_STRAT, choice == 1)
@@ -230,7 +224,6 @@ when
 then
     showResult(frame, "Risk");
 end
-
 
 rule "More than 2 h - no"
 when
@@ -291,7 +284,6 @@ when
 then
     showResult(frame, "Cosmic Encounter");
 end
-
 
 rule "nerd - no"
 when
@@ -556,15 +548,214 @@ then
     showResult(frame, "Taboo");
  end
 
+rule "Know it all - yes"
+when
+    q: Question(val == QuestionVal.KNOW_ALL, choice == 1)
+then
+    showResult(frame, "Trivial Persuit");
+ end
 
+rule "Know it all - no"
+when
+    q: Question(val == QuestionVal.KNOW_ALL, choice == 0)
+then
+    AskAQuestion(frame, kcontext.getKieRuntime(),
+            new Question(QuestionVal.STRAIGHT_A));
+ end
 
+rule "Straight As - yes"
+when
+    q: Question(val == QuestionVal.STRAIGHT_A, choice == 1)
+then
+    showResult(frame, "Scrabble");
+ end
 
+rule "Straight As - no"
+when
+    q: Question(val == QuestionVal.STRAIGHT_A, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.TRAIN_FETISH));
+ end
 
+rule "Train Fetish - yes"
+when
+    q: Question(val == QuestionVal.TRAIN_FETISH, choice == 1)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.ENJOY_ECO));
+ end
 
+rule "Train Fetish - no"
+when
+    q: Question(val == QuestionVal.TRAIN_FETISH, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.SIMPLE));
+ end
 
+rule "Economics - yes"
+when
+    q: Question(val == QuestionVal.ENJOY_ECO, choice == 1)
+then
+      showResult(frame, "Stream");
+ end
 
+rule "Economics - no"
+when
+    q: Question(val == QuestionVal.ENJOY_ECO, choice == 0)
+then
+      showResult(frame, "Ticket to Ride");
+ end
 
+rule "Simple - yes"
+when
+    q: Question(val == QuestionVal.SIMPLE, choice == 1)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.WORDS_TILES));
+ end
 
+rule "Simple - no"
+when
+    q: Question(val == QuestionVal.SIMPLE, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.HARD_CHOI));
+ end
+
+rule "Words vs Tiles - Tiles"
+when
+    q: Question(val == QuestionVal.WORDS_TILES, choice == 1)
+then
+    showResult(frame, "Qwirkle");
+ end
+
+rule "Words vs Tiles - Words"
+when
+    q: Question(val == QuestionVal.WORDS_TILES, choice == 0)
+then
+    showResult(frame, "Scattergories");
+ end
+
+rule "Hard Choices - yes"
+when
+    q: Question(val == QuestionVal.HARD_CHOI, choice == 1)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.FARM_FETISH));
+ end
+
+rule "Hard Choices - no"
+when
+    q: Question(val == QuestionVal.HARD_CHOI, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.CARD_DECK));
+ end
+
+rule "Farm Fetish - Yes"
+when
+    q: Question(val == QuestionVal.FARM_FETISH, choice == 1)
+then
+    showResult(frame, "Aricola");
+ end
+
+rule "Farm Fetish - no"
+when
+    q: Question(val == QuestionVal.FARM_FETISH, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.TWO_GAMES));
+ end
+
+rule "Two Games - Yes"
+ when
+     q: Question(val == QuestionVal.TWO_GAMES, choice == 1)
+ then
+      AskAQuestion(frame, kcontext.getKieRuntime(),
+                    new Question(QuestionVal.GEEKS));
+  end
+
+ rule "Two Games - No"
+ when
+     q: Question(val == QuestionVal.TWO_GAMES, choice == 0)
+ then
+     showResult(frame, "Cities and Knights");
+  end
+
+rule "Geeks - Yes"
+when
+     q: Question(val == QuestionVal.GEEKS, choice == 1)
+ then
+     showResult(frame, "Puerto Rico");
+  end
+
+rule "Geeks - No"
+when
+    q: Question(val == QuestionVal.GEEKS, choice == 0)
+ then
+      showResult(frame, "Domaine");
+ end
+
+rule "Card deck based - yes"
+when
+    q: Question(val == QuestionVal.CARD_DECK, choice == 1)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.COMPLEX));
+ end
+
+rule "Card deck based - no"
+when
+    q: Question(val == QuestionVal.CARD_DECK, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.PLAN_BEF_START));
+ end
+
+rule "Complexity - more"
+when
+    q: Question(val == QuestionVal.COMPLEX, choice == 1)
+then
+    showResult(frame, "7 Wonders");
+ end
+
+rule "Complexity - Less"
+when
+    q: Question(val == QuestionVal.COMPLEX, choice == 0)
+then
+    showResult(frame, "Dominion");
+ end
+
+rule "Plan Before - yes"
+when
+    q: Question(val == QuestionVal.PLAN_BEF_START, choice == 1)
+then
+    showResult(frame, "Setters of Catan");
+ end
+
+rule "Plan Before - no"
+when
+    q: Question(val == QuestionVal.PLAN_BEF_START, choice == 0)
+then
+   AskAQuestion(frame, kcontext.getKieRuntime(),
+               new Question(QuestionVal.DEF_TUR));
+ end
+
+rule "Defined turns - No D.T."
+when
+    q: Question(val == QuestionVal.DEF_TUR, choice == 1)
+then
+    showResult(frame, "Pillars of the Earth");
+ end
+
+rule "Defined turns - Turns"
+when
+    q: Question(val == QuestionVal.DEF_TUR, choice == 0)
+then
+    showResult(frame, "Carcassonne");
+ end
 
 
 // TODO Are you a know it all
