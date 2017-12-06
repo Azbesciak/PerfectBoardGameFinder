@@ -1,34 +1,35 @@
 package com.si.perfectgame
-//import javax.swing.*;
-//import org.kie.api.runtime.*
-//import com.si.perfectgame.QuestionVal;
+import javax.swing.*;
+import org.kie.api.runtime.*
+import com.si.perfectgame.QuestionVal
+import javax.swing.JOptionPane;
 
 
-//global JFrame frame
-//global javax.swing.JTextArea textArea
+global JFrame frame
+global javax.swing.JTextArea textArea
 
 //declare Question
 //    val: QuestionVal @key
 //    choice: Integer
 //end
 
-//function void askAQuestion(JFrame frame, KieRuntime krt, Question question) {
-//    question.setChoice(JOptionPane
-//        .showOptionDialog(
-//            frame,
-//            question.getVal().getText(), "",
-//            JOptionPane.YES_NO_CANCEL_OPTION,
-//            JOptionPane.QUESTION_MESSAGE,
-//            null,
-//            question.getVal().getAns(),
-//            question.getVal().getLeft())
-//    );
-//    krt.insert(question);
-//}
-//
-//function void showResult(JFrame frame, String gameName) {
-//    JOptionPane.showMessageDialog(frame, gameName);
-//}
+function void askAQuestion(JFrame frame, KieRuntime krt, Question question) {
+    question.setChoice(JOptionPane
+        .showOptionDialog(
+            frame,
+            question.getVal().getText(), "",
+            JOptionPane.YES_NO_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            question.getVal().getAns(),
+            question.getVal().getLeft())
+    );
+    krt.insert(question);
+}
+
+function void showResult(JFrame frame, String gameName) {
+    JOptionPane.showMessageDialog(frame, gameName);
+}
 // FIXME zakomentowane żeby intellij nie zjadał całego ramu na kompie,
 // FIXME podobnie z klasami i enum w javie zamiast tutaj
 
@@ -297,7 +298,7 @@ rule "Just Get Along - no"
 when
     q: Question(val == QuestionVal.JUST_GET_ALONG, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.GAMBLE));
  end
 
@@ -305,7 +306,7 @@ rule "Just Get Along - yes"
 when
     q: Question(val == QuestionVal.JUST_GET_ALONG, choice == 1)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.DICK));
  end
 
@@ -313,7 +314,7 @@ rule "Dick - no"
 when
     q: Question(val == QuestionVal.DICK, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.MONTY_PYTH));
  end
 
@@ -328,7 +329,7 @@ rule "Monthy Python - no"
 when
     q: Question(val == QuestionVal.MONTY_PYTH, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.ZOMBIE));
  end
 
@@ -343,7 +344,7 @@ rule "Zombies - no"
 when
     q: Question(val == QuestionVal.ZOMBIE, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.MONSTER_VIR));
  end
 
@@ -379,7 +380,7 @@ rule "Gamble - no"
 when
     q: Question(val == QuestionVal.GAMBLE, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
        new Question(QuestionVal.OVER_50));
  end
 
@@ -387,7 +388,7 @@ rule "Over 50 - yes"
 when
     q: Question(val == QuestionVal.OVER_50, choice == 1)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.MORE_2));
  end
 
@@ -395,7 +396,7 @@ then
  when
     q: Question(val == QuestionVal.OVER_50, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.PARTY));
  end
 
@@ -410,7 +411,7 @@ rule "More 2 - no"
 when
     q: Question(val == QuestionVal.MORE_2, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.MENSA));
  end
 
@@ -418,7 +419,7 @@ rule "Mensa - yes"
 when
     q: Question(val == QuestionVal.MENSA, choice == 1)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.CLICHE));
  end
 
@@ -447,7 +448,7 @@ rule "Party - yes"
 when
     q: Question(val == QuestionVal.PARTY, choice == 1)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.GET_LAID));
  end
 
@@ -455,7 +456,7 @@ rule "Party - no"
 when
     q: Question(val == QuestionVal.PARTY, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.KNOW_ALL));
  end
 
@@ -470,7 +471,7 @@ rule "Laid - no"
 when
     q: Question(val == QuestionVal.GET_LAID, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.EMBARRASS));
  end
 
@@ -478,7 +479,7 @@ rule "Embarrass - yes"
 when
     q: Question(val == QuestionVal.EMBARRASS, choice == 1)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.THUG_ARTIST));
  end
 
@@ -486,7 +487,7 @@ rule "Embarrass - no"
 when
     q: Question(val == QuestionVal.EMBARRASS, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
     new Question(QuestionVal.LAIR));
  end
 
@@ -508,7 +509,7 @@ rule "Lair - yes"
  when
      q: Question(val == QuestionVal.LAIR, choice == 1)
  then
-      AskAQuestion(frame, kcontext.getKieRuntime(),
+      askAQuestion(frame, kcontext.getKieRuntime(),
          new Question(QuestionVal.WORDS_TRIVIA));
   end
 
@@ -516,7 +517,7 @@ rule "Lair - no"
 when
     q: Question(val == QuestionVal.LAIR, choice == 0)
 then
-     AskAQuestion(frame, kcontext.getKieRuntime(),
+     askAQuestion(frame, kcontext.getKieRuntime(),
         new Question(QuestionVal.HANDS));
  end
 
@@ -559,7 +560,7 @@ rule "Know it all - no"
 when
     q: Question(val == QuestionVal.KNOW_ALL, choice == 0)
 then
-    AskAQuestion(frame, kcontext.getKieRuntime(),
+    askAQuestion(frame, kcontext.getKieRuntime(),
             new Question(QuestionVal.STRAIGHT_A));
  end
 
@@ -574,7 +575,7 @@ rule "Straight As - no"
 when
     q: Question(val == QuestionVal.STRAIGHT_A, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.TRAIN_FETISH));
  end
 
@@ -582,7 +583,7 @@ rule "Train Fetish - yes"
 when
     q: Question(val == QuestionVal.TRAIN_FETISH, choice == 1)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.ENJOY_ECO));
  end
 
@@ -590,7 +591,7 @@ rule "Train Fetish - no"
 when
     q: Question(val == QuestionVal.TRAIN_FETISH, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.SIMPLE));
  end
 
@@ -612,7 +613,7 @@ rule "Simple - yes"
 when
     q: Question(val == QuestionVal.SIMPLE, choice == 1)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.WORDS_TILES));
  end
 
@@ -620,7 +621,7 @@ rule "Simple - no"
 when
     q: Question(val == QuestionVal.SIMPLE, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.HARD_CHOI));
  end
 
@@ -642,7 +643,7 @@ rule "Hard Choices - yes"
 when
     q: Question(val == QuestionVal.HARD_CHOI, choice == 1)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.FARM_FETISH));
  end
 
@@ -650,7 +651,7 @@ rule "Hard Choices - no"
 when
     q: Question(val == QuestionVal.HARD_CHOI, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.CARD_DECK));
  end
 
@@ -665,7 +666,7 @@ rule "Farm Fetish - no"
 when
     q: Question(val == QuestionVal.FARM_FETISH, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.TWO_GAMES));
  end
 
@@ -673,7 +674,7 @@ rule "Two Games - Yes"
  when
      q: Question(val == QuestionVal.TWO_GAMES, choice == 1)
  then
-      AskAQuestion(frame, kcontext.getKieRuntime(),
+      askAQuestion(frame, kcontext.getKieRuntime(),
                     new Question(QuestionVal.GEEKS));
   end
 
@@ -702,7 +703,7 @@ rule "Card deck based - yes"
 when
     q: Question(val == QuestionVal.CARD_DECK, choice == 1)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.COMPLEX));
  end
 
@@ -710,7 +711,7 @@ rule "Card deck based - no"
 when
     q: Question(val == QuestionVal.CARD_DECK, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.PLAN_BEF_START));
  end
 
@@ -739,7 +740,7 @@ rule "Plan Before - no"
 when
     q: Question(val == QuestionVal.PLAN_BEF_START, choice == 0)
 then
-   AskAQuestion(frame, kcontext.getKieRuntime(),
+   askAQuestion(frame, kcontext.getKieRuntime(),
                new Question(QuestionVal.DEF_TUR));
  end
 
@@ -756,6 +757,3 @@ when
 then
     showResult(frame, "Carcassonne");
  end
-
-
-// TODO Are you a know it all
